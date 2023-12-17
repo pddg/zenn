@@ -1,0 +1,24 @@
+title: "ベアメタルサーバで学ぶ高可用性Webサービス入門"
+summary: |
+  この本では、現代の高可用性が求められるWebサービスにはどのような要件・技術が求められるかを雰囲気で解説します。
+  令和になり各クラウドプロバイダーは高い可用性とパフォーマンスを両立する有料のマネージドサービスを多数展開しています。それらをあえて使わずにWebサービスを構築し、信頼性の高いサービスを作ることの難しさ・楽しさを学んでもらえると嬉しいです。
+
+  基本的にNUC、ないし近いスペックのミニPC 1台とUSBメモリ、同じネットワークに接続できる異なるPCがあれば学べるようにしています。複数台を扱う発展的なトピックはここでは取り扱いません。
+  ※ 簡単のため、あえて扱わないトピックもあります。これ単体で可用性の高いWebサービスを構築できるわけではありません。
+topics: ["Linux","Web"]
+published: false
+price: 0
+chapters:
+  - intro
+  - what-is-service-down
+  - sli-slo-sla
+  - prepare-vm-platform
+  - prepare-vms-manually
+  - prepare-vms-automatically
+  - serve-static-files
+  - use-load-balancer
+  - use-ha-loadbalancing
+  - use-database
+  - use-ha-database
+  - monitoring
+  - not-covered-contents
