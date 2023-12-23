@@ -204,3 +204,7 @@ Configure this server - connect to:
 
 上記のような表示が出たら成功です。クライアント端末のブラウザで上記アドレスにアクセスしてみてください。
 アクセス出来ない場合はネットワークの設定が間違っていた可能性があります。インストールをやり直してみてください。
+
+## ProxmoxのWeb UI
+
+![proxmox-webui-login.png](/images/books/introduction-for-high-availability/proxmox-webui-login.png)
