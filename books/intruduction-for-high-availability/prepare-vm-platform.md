@@ -216,4 +216,114 @@ FireFoxの場合、`詳細へ進む`→`危険姓を承知で続行` でアク�
 
 ## ProxmoxのWeb UI
 
+本書では、Proxmox VEをインストールした物理マシンのIPアドレスを `192.168.16.130`、ホスト名を `node1` として説明します。以降、このIPアドレスが使われた場合、自身のProxmox VEをインストールした物理マシンと読み替えてください。
+
 ![proxmox-webui-login.png](/images/books/introduction-for-high-availability/proxmox-webui-login.png)
+
+Web UIへのログインには、インストール時に設定したパスワードを利用します。
+
+- User name：`root`
+- Password：インストール時に設定したパスワード
+- Realm：`Linux PATM standard authentication`
+- Language：`English - English`
+
+なお、説明上ではLanguageを `English` で進めますが、ご自身の判断で日本語にしていただいても構いません。
+
+## Proxmoxの初期設定
+
+ログイン完了時に下記の様な警告が表示されると思います。これはProxmoxが提供する有償サブスクリプションを契約していないために表示されています。この警告は初期設定後も出続けますが、特に本書での利用範囲において大きな影響はありません。
+
+![proxmox-webui-subscription-warning.png](/images/books/introduction-for-high-availability/proxmox-webui-subscription-warning.png)
+
+:::message
+Proxmox VEを使って商用サービスを提供したい場合、迅速なセキュリティアップデートや技術サポートを受けるため、有償サブスクリプションを契約することをおすすめします。
+:::
+
+### 無償版リポジトリへ切り替える
+
+Proxmox VEの商用サポートが提供される有償版パッケージリポジトリ（Enterpriseリポジトリ）がデフォルトで指定されています。この状態ではパッケージの更新などに失敗するので、まずはEnterpriseリポジトリを見ないように設定を変えます。
+画面左のカラムから`Datacenter` > `node1`を選び、画面右の設定一覧から `Updates` > `Repositories` を選択します。
+
+![proxmox-webui-repos-enterprise-enabled.png](/images/books/introduction-for-high-availability/proxmox-webui-repos-enterprise-enabled.png)
+
+`/etc/apt/sources.list.d/ceph.list` および `/etc/apt/sources.list.d/pve-enterprise.list` に表示されている行を選択し、 `Disable` します。
+
+![proxmox-webui-repos-no-pve.png](/images/books/introduction-for-high-availability/proxmox-webui-repos-no-pve.png)
+
+次に `Add` をクリックし、（警告画面をOKでスキップして）以下の様に `No-Subscription` リポジトリを選択して `Add` します。
+
+![proxmox-webui-repos-add-no-sub.png](/images/books/introduction-for-high-availability/proxmox-webui-repos-add-no-sub.png)
+
+以下の様に追加されれば完了です。
+
+![proxmox-webui-repos-no-sub-enabled.png](/images/books/introduction-for-high-availability/proxmox-webui-repos-no-sub-enabled.png)
+
+### （Optional）公開鍵認証でログインできるようにする
+
+まずはssh時に公開鍵認証が使えるように公開鍵を設定します。GitHubに登録している鍵を流用する場合、このセクションはスキップして次のセクションで公開鍵を設定しても構いません。
+
+もしまだ手元の環境でSSHの鍵を一度も作っていない場合は `ssh-keygen` コマンドで鍵を生成します。不要な場合はスキップして構いません。
+
+```sh
+ssh-keygen -t ed25519
+```
+
+お使いのターミナルエミュレータを開いて、以下の様なコマンドを打ちます。
+
+```sh
+# サーバのアドレスは各自の環境に応じて変える
+PROXMOX_SERVER_ADDR="192.168.16.130"
+ssh-copy-id -n root@${PROXMOX_SERVER_ADDR}
+```
+
+これはドライランになっていて、実際には公開鍵は設定されていません。表示された鍵の情報が自分の想定通りである場合、下記の様に `-n` を除いて実行し直します。
+
+```sh
+ssh-copy-id root@${PROXMOX_SERVER_ADDR}
+```
+
+パスワードを入力すると公開鍵が登録されます。
+
+```
+$ ssh-copy-id root@${PROXMOX_SERVER_ADDR}
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pudding/.ssh/id_ed25519.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+root@192.168.16.130's password:
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh 'root@192.168.16.130'"
+and check to make sure that only the key(s) you wanted were added
+```
+
+パスワードを入力することなくsshできることを確かめます。
+
+```sh
+ssh root@${PROXMOX_SERVER_ADDR}
+```
+
+エラーになる場合はなんらかの設定ミス、指定した鍵が異なるなどの影響が考えられます。対応する公開鍵を登録し直してみてください。
+
+### （Optional）GitHubから公開鍵をインポートする
+
+GitHubにSSHの鍵を登録している場合、その登録された公開鍵をそのまま取り込んで利用することができます。
+`Datacenter` > `node1` を選択し、 `Shell` を開くと以下の様にrootユーザでログインしたシェルが開かれます。簡単な作業はここから行うこともできます。
+
+![proxmox-webui-shell.png](/images/books/introduction-for-high-availability/proxmox-webui-shell.png)
+
+先に公開鍵のインポートに使われるコマンドをインストールします。
+
+```sh
+apt update
+apt install -y ssh-import-id
+```
+
+次に自身のGitHubのユーザ名（筆者の場合 [pddg](https://github.com/pddg)）を指定してimportします。
+
+```sh
+GH_USER=pddg
+ssh-import-id gh:${GH_USER}
+```
+
+手元の端末からはGitHubにSSHするときに使っている秘密鍵を指定するだけで `node1` に接続出来ます。
