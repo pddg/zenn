@@ -205,6 +205,15 @@ Configure this server - connect to:
 上記のような表示が出たら成功です。クライアント端末のブラウザで上記アドレスにアクセスしてみてください。
 アクセス出来ない場合はネットワークの設定が間違っていた可能性があります。インストールをやり直してみてください。
 
+:::message
+接続するプロトコルがHTTPではなく HTTPS であることに注意してください。これは[自己署名証明書](https://www.gmo.jp/security/ciphersecurity/http-https/blog/self-signed-certificate/)によってサーブされているため、ブラウザからアクセスするときに下記の様なエラーが表示されます。
+
+![proxmox-webui-warning.png](/images/books/introduction-for-high-availability/proxmox-webui-warning.png)
+
+FireFoxの場合、`詳細へ進む`→`危険姓を承知で続行` でアクセスすることができます。今回はローカルでの実験的なサービスであることから、許容してアクセスしてください。
+なお、通常このような警告が出るサイトにアクセスするべきではありません。
+:::
+
 ## ProxmoxのWeb UI
 
 ![proxmox-webui-login.png](/images/books/introduction-for-high-availability/proxmox-webui-login.png)
