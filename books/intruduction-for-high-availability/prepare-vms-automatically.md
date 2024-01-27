@@ -397,6 +397,34 @@ ssh-keygen -R "192.168.16.131"
 
 https://pve.proxmox.com/pve-docs/qm.1.html
 
+## （おまけ）GUIからVMを作成する
+
+テンプレートをクローンしてGUIからVMを作成する方法も紹介しておきます。
+まず、画面左のカラムから `Datacenter` > `node1` > `999 (vm-master-image)` を選択します。右上の `More` ドロップダウンを開くと `Clone` という項目があるので、これを選択します。
+
+![proxmox-webui-clone-vm-template.png](/images/books/introduction-for-high-availability/proxmox-webui-clone-vm-template.png)
+
+ここでは `100` というVMIDを持つ、 `vm-from-gui` という名前のVMを作成します。`Mode` を `Full Clone` に変更し、 `Clone` ボタンを押します。
+
+![proxmox-webui-customize-clone-vm.png](/images/books/introduction-for-high-availability/proxmox-webui-customize-clone-vm.png)
+
+画面左のカラムから `Datacenter` > `node1` > `100 (vm-from-gui)` を選択します。
+中央のカラムから `Cloud-Init` を選択すると、ユーザ名やネットワークなどいくつかの設定を変更できます。
+
+![proxmox-webui-customize-clone-vm-cloud-init.png](/images/books/introduction-for-high-availability/proxmox-webui-customize-clone-vm-cloud-init.png)
+
+中央のカラムから `Hardware` を選択すると、CPUやメモリの量を変更したり、ディスクを追加することができます。
+
+![proxmox-webui-customize-clone-vm-hardware.png](/images/books/introduction-for-high-availability/proxmox-webui-customize-clone-vm-hardware.png)
+
+画面上部の `Start` ボタンを押すとVMが起動します。中央のカラムから `Summary` を選択すると、IPアドレスなどの情報を確認できます。
+停止する際は `Shutdown` ボタンを押します。
+
+シャットダウンが完了するまでVMは削除出来ません。停止が完了したら右上の `More` ドロップダウンから `Remove` を選択します。
+削除するVMIDを入力し、チェックボックスにチェックを入れて `Remove` ボタンを押します。
+
+![proxmox-webui-remove-vm.png](/images/books/introduction-for-high-availability/proxmox-webui-remove-vm.png)
+
 ## まとめ
 
 Ubuntu 22.04 LTSのクラウドイメージを使ったVMテンプレートを作り、新規VMを以下の様なコマンドで作成することができるようになりました。
