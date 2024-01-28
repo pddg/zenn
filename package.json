@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "preview": "npx zenn preview"
+    "preview": "npx zenn preview",
+    "lint": "npx textlint .",
+    "lint:fix": "npx textlint --fix .",
+    "lint:ci": "npx textlint --format checkstyle ."
   },
   "keywords": [],
   "author": "",
