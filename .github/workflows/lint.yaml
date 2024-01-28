@@ -42,7 +42,7 @@ jobs:
         run: |
           reviewdog -f=checkstyle -name="textlint" -reporter=github-pr-check -level=error < /tmp/lint-result.xml
       - uses: actions/cache/save@v3
-        if: npm-cache.outputs.cache-hit != 'true' && github.ref_name == 'main'
+        if: steps.npm-cache.outputs.cache-hit != 'true' && github.ref_name == 'main'
         with:
           path: ${{ steps.npm-cache-dir.outputs.dir }}
           key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
