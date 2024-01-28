@@ -1,0 +1,48 @@
+name: Lint
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  textlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: reviewdog/action-setup@v1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+      - uses: actions/cache/restore@v3
+        id: npm-cache
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys:
+            ${{ runner.os }}-npm-
+      - name: Install depends
+        run: |
+          npm ci
+      - name: Run lint
+        shell: bash
+        run: |
+          npm run -s lint:ci | tee /tmp/lint-result.xml
+      - name: Post comment by reviewdog
+        if: github.event_name == 'pull_request' && failure()
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          reviewdog -f=checkstyle -name="textlint" -reporter=github-pr-check -level=error < /tmp/lint-result.xml
+      - uses: actions/cache/save@v3
+        if: steps.npm-cache.outputs.cache-hit != 'true' && github.ref_name == 'main'
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}

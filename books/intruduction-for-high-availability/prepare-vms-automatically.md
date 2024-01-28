@@ -6,11 +6,11 @@ title: "VMを自動セットアップする"
 
 前章では、空の仮想環境に対してUbuntu Serverのインストールを手作業で行いました。この方法では多数の仮想環境を用意するのに非常に手間がかかります。そこで、クラウドイメージを使って自動的に仮想環境をセットアップする方法を紹介します。
 
-クラウドイメージとは、主にクラウドサービスで利用される、OSのイメージファイルです。これは「インストール済み」の状態のOSイメージで、いくつかのフォーマットで規定されています[^vmimgfmt]。前章のようにインストーラを使ってインタラクティブに構築する場合と異なり、設定は [cloud-init](https://cloudinit.readthedocs.io/en/latest/) や [ignition](https://coreos.github.io/ignition/) などのツールを使って行います。これらはOSの初回起動時に実行されるようになっており、最初の起動時に事前に定義した設定が注入されます。
+クラウドイメージとは、主にクラウドサービスで利用される、OSのイメージファイルです。これは「インストール済み」の状態のOSイメージで、いくつかのフォーマットで規定されています[^vmimgfmt]。前章のようなインストーラを使ってインタラクティブに構築する場合と異なり、設定は [cloud-init](https://cloudinit.readthedocs.io/en/latest/) や [ignition](https://coreos.github.io/ignition/) などのツールを使って行います。これらはOSの初回起動時に実行され、事前に定義した設定が注入されます。
 
 [^vmimgfmt]: https://docs.openstack.org/glance/latest/user/formats.html
 
-今回利用するUbuntuもクラウドイメージを公開しています。これは数日おきにその時点での最新のアップデートが適用されたイメージが公開されています。最新のイメージに追従することで構築した仮想環境において起動後に必要なアップデートの量が少なくなるため、大規模な仮想サーバ基盤を構築したい場合はその方法も検討することが重要です。
+今回利用するUbuntuもクラウドイメージを公開しています。これはその時点での最新のアップデートを適用したイメージが、数日おきに公開されています。最新のイメージに追従することで、構築したVMの起動後に必要なアップデートの量が少なくなるため、大規模な仮想サーバ基盤を構築したい場合はその方法も検討すると良いでしょう。
 
 https://cloud-images.ubuntu.com/
 
@@ -24,7 +24,7 @@ https://cloud-images.ubuntu.com/jammy/current/
 以降の手順はProxmox VEをインストールしたサーバ上で行います。
 
 :::message
-以降、コマンドについて記述する際はその先頭に `# @ホスト名` として実行するホストを表記します。他のホストで実行した場合、エラーになる可能性があります。実行する前によく確認するようにしてください。
+以降、実行するコマンドを記述する際はその先頭に `# @ホスト名` として実行するホストを表記します。他のホストで実行した場合、エラーになる可能性があります。実行する前によく確認してください。
 なお本書においてProxmox VEのホスト名は `node1` として表記しています。
 :::
 
@@ -33,9 +33,11 @@ https://cloud-images.ubuntu.com/jammy/current/
 wget https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img
 ```
 
+<!-- textlint-disable ja-technical-writing/ja-no-mixed-period-->
 :::details ダウンロードしたイメージの真正性を確認する
+<!-- textlint-enable ja-technical-writing/ja-no-mixed-period-->
 
-このようにWebからダウンロードしたイメージが正しくUbuntuの開発チームが用意したものであるかを確認することができます。基本的に実行方法は以下の通りです。対象がISOファイルではなく、クラウドイメージのファイルに変わっているだけです。
+このようにWebからダウンロードしたイメージが正しくUbuntuの開発チームが用意したものであるかを確認できます。基本的に実行方法は以下の通りです。対象がISOファイルではなく、クラウドイメージのファイルに変わっているだけです。
 
 https://ubuntu.com/tutorials/how-to-verify-ubuntu#1-overview
 
@@ -66,8 +68,8 @@ SIG=D2EB44626FDDC30B513D5BB71A5D6C4C7DB87C81
 gpg --keyid-format long --keyserver keyserver.ubuntu.com --recv-keys $SIG
 ```
 
-この例では `UEC Image Automatic Signing Key <cdimage@ubuntu.com>` がこの鍵を使っているようです。ubuntuのkeyserverから入手していること、署名者のメールアドレスにubuntuのドメインが含まれていることから、この鍵は信頼して良いと考えられそうです（実際どうやってこれが正しいことを証明するんだろう……）。
-再び検証を実行し、以下の様に成功するか確かめます。
+この例では `UEC Image Automatic Signing Key <cdimage@ubuntu.com>` がこの鍵を使っているようです。Ubuntuのkeyserverから入手していること、署名者のメールアドレスにUbuntuのドメインが含まれていることから、この鍵は信頼して良いと考えられそうです（実際どうやってこれが正しいことを証明するんだろう……）。
+再び実行し、以下の様に成功するか確かめます。
 
 ```text
 root@node1:~# gpg --keyid-format long --verify SHA256SUMS.gpg SHA256SUMS
@@ -87,7 +89,7 @@ WARNINGが発生していますが、これはこの署名が無効であるな�
 sha256sum -c SHA256SUMS --ignore-missing
 ```
 
-`jammy-server-cloudimg-amd64.img` というファイルについて `OK` と表示されれば、ダウンロードしたイメージが正しくCanonicalが用意したものであることが確認できます。
+`jammy-server-cloudimg-amd64.img` というファイルについて `OK` と表示されれば、ダウンロードしたイメージは正しくCanonicalが用意したものであることを確認できます。
 
 ```bash
 root@node1:~# sha256sum -c SHA256SUMS --ignore-missing
@@ -98,7 +100,7 @@ jammy-server-cloudimg-amd64.img: OK
 
 ### クラウドイメージのカスタマイズ
 
-ベースイメージのカスタマイズを行います。これは `virt-customize` というツールを使って行います。このツールを使うことで、仮想マシンのディスクイメージをマウントしてファイルを書き換えたり、パッケージをインストールしたりすることができます。まずは `virt-customize` をインストールします。
+ベースイメージのカスタマイズを行います。これは `virt-customize` というツールを使って行います。このツールを使うことで、仮想マシンのディスクイメージをマウントしてファイルを書き換えたり、パッケージをインストールしたりできます。まずは `virt-customize` をインストールします。
 
 :::message
 ここではrootユーザとしてログインしている前提で説明します。rootユーザでない場合は `sudo` を使って実行してください。
@@ -117,7 +119,7 @@ virt-customize -a jammy-server-cloudimg-amd64.img \
   --install qemu-guest-agent
 ```
 
-他にもファイルを作成/更新/削除したり、ユーザやそのパスワードを設定することもできます。今回はこれ以上のカスタマイズは行いません。詳細は以下のページのオプションなどを参照してください。
+他にもファイルを作成/更新/削除したり、ユーザやそのパスワードの設定も可能です。今回はこれ以上のカスタマイズは行いません。詳細は以下のページのオプションなどを参照してください。
 
 https://libguestfs.org/virt-customize.1.html
 
@@ -221,14 +223,14 @@ cloud-image-test
 ubuntu@cloud-image-test:~$
 ```
 
-クラウドイメージベースでVMが起動できることが分かったので、以下の様に起動したVMを停止・削除します。
+クラウドイメージをベースとしてVMを起動できることが分かったので、以下の様に起動したVMを停止・削除します。
 
 ```bash
 # @node1
 qm stop $VMID && qm wait $VMID && qm destroy $VMID
 ```
 
-このホストはSSHした際にknown_hostsに登録されています。VMを削除した後に同じアドレスを別のVMに割り当てると、SSHした際に `WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!` というエラーが表示されます。これを避けるため、VMを削除したら以下の様にknown_hostsから削除してください。
+このホストへSSHした際、クライアントマシンのknown_hostsに登録されています。VMを削除した後に同じアドレスを別のVMに割り当てると、SSHした際に `WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!` というエラーが表示されます。これを避けるため、VMを削除したら以下の様にknown_hostsから削除してください。
 
 ```bash
 # @client
@@ -237,7 +239,7 @@ ssh-keygen -R <IPアドレス>
 
 ## Proxmox VEのテンプレート機能を使う
 
-これでもかなり楽にVMをセットアップできましたが、更に簡単にするためProxmox上にテンプレートとなるVMを構築し、以降はその設定をクローンして使えるようにします。
+これでもかなり楽にVMをセットアップできましたが、Proxmox上にテンプレートを用意するとより簡単にできます。一度テンプレートを作成すると、以降はその設定をクローンするだけで利用できます。
 
 ### テンプレート用のVMを作成する
 
@@ -286,7 +288,7 @@ qm resize $VMID scsi0 20G
 qm template $VMID
 ```
 
-テンプレート化したVMは起動することができなくなります。
+テンプレート化したVMは起動できなくなります。
 
 ```
 root@node1:~# qm start $VMID
@@ -393,7 +395,7 @@ qm stop $VMID && qm wait $VMID && qm destroy $VMID
 ssh-keygen -R "192.168.16.131"
 ```
 
-同様に `qm set` コマンドを使って、CPUやメモリの量を変更したり、ネットワークの設定を変更したりすることができます。詳細は以下のページを参照してください。
+同様に `qm set` コマンドを使って、CPUやメモリの量を変更したり、ネットワークの設定を変更したりできます。詳細は以下のページを参照してください。
 
 https://pve.proxmox.com/pve-docs/qm.1.html
 
@@ -413,7 +415,7 @@ https://pve.proxmox.com/pve-docs/qm.1.html
 
 ![proxmox-webui-customize-clone-vm-cloud-init.png](/images/books/introduction-for-high-availability/proxmox-webui-customize-clone-vm-cloud-init.png)
 
-中央のカラムから `Hardware` を選択すると、CPUやメモリの量を変更したり、ディスクを追加することができます。
+中央のカラムから `Hardware` を選択すると、CPUやメモリの量を変更したり、ディスクを追加できます。
 
 ![proxmox-webui-customize-clone-vm-hardware.png](/images/books/introduction-for-high-availability/proxmox-webui-customize-clone-vm-hardware.png)
 
@@ -427,7 +429,7 @@ https://pve.proxmox.com/pve-docs/qm.1.html
 
 ## まとめ
 
-Ubuntu 22.04 LTSのクラウドイメージを使ったVMテンプレートを作り、新規VMを以下の様なコマンドで作成することができるようになりました。
+Ubuntu 22.04 LTSのクラウドイメージを使ったVMテンプレートを作り、新規VMを以下の様なコマンドで作成できるようになりました。
 
 ```bash
 # @node1

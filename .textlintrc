@@ -1,0 +1,27 @@
+{
+    "filters": {
+        "comments": true
+    },
+    "rules": {
+        "preset-ja-technical-writing": {
+            "ja-no-successive-word": {
+                "allow": [
+                    "…"
+                ]
+            },
+            "ja-no-weak-phrase": false,
+            "ja-no-mixed-period": {
+                "allowPeriodMarks": [
+                    ":", "："
+                ]
+            },
+            "sentence-length": {
+                "max": 120
+            },
+            "max-kanji-continuous-len": {
+                "max": 8
+            }
+        },
+        "spellcheck-tech-word": true
+    }
+}
