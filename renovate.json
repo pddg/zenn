@@ -1,5 +1,21 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "timezone": "Asia/Tokyo",
+  "schedule": [
+    "after 8am on Saturday", "before 10am on Saturday"
+  ],
+  "packageRules": [
+    {
+      "groupName": "textlint",
+      "matchPackagePrefixes": ["textlint"]
+    },
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
+    }
+  ],
+  "automerge": true,
+  "platformAutomerge": true,
   "extends": [
     "config:recommended"
   ]

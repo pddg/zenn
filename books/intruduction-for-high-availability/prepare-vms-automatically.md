@@ -8,17 +8,17 @@ title: "VMを自動セットアップする"
 
 クラウドイメージとは、主にクラウドサービスで利用される、OSのイメージファイルです。これは「インストール済み」の状態のOSイメージで、いくつかのフォーマットで規定されています[^vmimgfmt]。前章のようなインストーラを使ってインタラクティブに構築する場合と異なり、設定は [cloud-init](https://cloudinit.readthedocs.io/en/latest/) や [ignition](https://coreos.github.io/ignition/) などのツールを使って行います。これらはOSの初回起動時に実行され、事前に定義した設定が注入されます。
 
-[^vmimgfmt]: https://docs.openstack.org/glance/latest/user/formats.html
+[^vmimgfmt]: <https://docs.openstack.org/glance/latest/user/formats.html>
 
 今回利用するUbuntuもクラウドイメージを公開しています。これはその時点での最新のアップデートを適用したイメージが、数日おきに公開されています。最新のイメージに追従することで、構築したVMの起動後に必要なアップデートの量が少なくなるため、大規模な仮想サーバ基盤を構築したい場合はその方法も検討すると良いでしょう。
 
-https://cloud-images.ubuntu.com/
+<https://cloud-images.ubuntu.com/>
 
 ### クラウドイメージのダウンロード
 
 今回はUbuntu 22.04 LTSのクラウドイメージを利用します。現時点での最新のクラウドイメージは以下のURLからダウンロードできます。
 
-https://cloud-images.ubuntu.com/jammy/current/
+<https://cloud-images.ubuntu.com/jammy/current/>
 
 まずはProxmox VEからこのイメージを利用できるよう `node1` 上にダウンロードします。ファイルが複数存在していますが、利用するのはOpenStackでよく使われるqcow2というフォーマットのイメージです。
 以降の手順はProxmox VEをインストールしたサーバ上で行います。
@@ -39,7 +39,7 @@ wget https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.i
 
 このようにWebからダウンロードしたイメージが正しくUbuntuの開発チームが用意したものであるかを確認できます。基本的に実行方法は以下の通りです。対象がISOファイルではなく、クラウドイメージのファイルに変わっているだけです。
 
-https://ubuntu.com/tutorials/how-to-verify-ubuntu#1-overview
+@[card](https://ubuntu.com/tutorials/how-to-verify-ubuntu#1-overview)
 
 イメージをダウンロードした後、同じディレクトリで以下のコマンドを実行します。
 
@@ -121,7 +121,7 @@ virt-customize -a jammy-server-cloudimg-amd64.img \
 
 他にもファイルを作成/更新/削除したり、ユーザやそのパスワードの設定も可能です。今回はこれ以上のカスタマイズは行いません。詳細は以下のページのオプションなどを参照してください。
 
-https://libguestfs.org/virt-customize.1.html
+<https://libguestfs.org/virt-customize.1.html>
 
 ### クラウドイメージを使った仮想環境の作成
 
@@ -159,7 +159,7 @@ qm resize $VMID scsi0 20G
 :::message
 Proxmox VEでcloud-initを完全に利用するには、ユーザが書いたcloud-initの設定ファイルを使う必要があります。これを使うと、GUIからのカスタマイズができなくなるため、ここでは `qm` コマンドがサポートする範囲のみで設定します。詳細は以下のページを参照してください。
 
-https://pve.proxmox.com/wiki/Cloud-Init_Support
+<https://pve.proxmox.com/wiki/Cloud-Init_Support>
 :::
 
 ```bash
@@ -200,7 +200,6 @@ VMが起動したら、SSHでログインしてみます。
 `jq` コマンドがインストールされていない場合は `apt install -y jq` でインストールしてください。
 :::
 
-
 ```bash
 # @node1
 PROXMOX_HOST=node1
@@ -217,7 +216,7 @@ ssh ubuntu@<IPアドレス>
 
 以下の様に `cloud-image-test` というホスト名が表示されれば成功です。
 
-```
+```text
 ubuntu@cloud-image-test:~$ hostname
 cloud-image-test
 ubuntu@cloud-image-test:~$
@@ -290,7 +289,7 @@ qm template $VMID
 
 テンプレート化したVMは起動できなくなります。
 
-```
+```text
 root@node1:~# qm start $VMID
 you can't start a vm if it's a template
 root@node1:~#
@@ -338,7 +337,7 @@ ssh ubuntu@<IPアドレス>
 
 以下の様に `vm-from-template` というホスト名が表示されれば成功です。
 
-```
+```text
 ubuntu@vm-from-template:~$ hostname
 vm-from-template
 ubuntu@vm-from-template:~$
@@ -397,7 +396,7 @@ ssh-keygen -R "192.168.16.131"
 
 同様に `qm set` コマンドを使って、CPUやメモリの量を変更したり、ネットワークの設定を変更したりできます。詳細は以下のページを参照してください。
 
-https://pve.proxmox.com/pve-docs/qm.1.html
+<https://pve.proxmox.com/pve-docs/qm.1.html>
 
 ## （おまけ）GUIからVMを作成する
 

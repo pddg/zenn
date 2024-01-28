@@ -37,7 +37,7 @@ title: "仮想サーバ基盤を構築する"
 
 VM（Virtual Machineの略）とは「実際のコンピューターのように動作するコンピューター ファイル」[^ms-vm-def]です。これらは物理マシンのようにCPU・メモリ・ディスクなどを持ち、ネットワーク経由で通信できますが、その実体は物理マシンのリソースを抽象化したものを操っており物理的に目に見えるものではありません。
 
-[^ms-vm-def]: https://azure.microsoft.com/ja-jp/resources/cloud-computing-dictionary/what-is-a-virtual-machine
+[^ms-vm-def]: <https://azure.microsoft.com/ja-jp/resources/cloud-computing-dictionary/what-is-a-virtual-machine>
 
 VMはCPUやメモリ・ディスク・NICのようなハードウェアをエミュレートし、同様のふるまいをするソフトウェアやハードウェアの支援機能を活用しています。これによって実際のハードウェアと密結合した状態から一部解放され、異なるハードウェア間での移動がある程度容易になっています。
 
@@ -77,14 +77,14 @@ VMはCPUやメモリ・ディスク・NICのようなハードウェアをエミ
 :::message
 Proxmox VEのバージョン8.1.3を用いて動作を検証しています。他のバージョンではUIや機能などが異なる可能性があります。
 異なるバージョンで挑戦する場合、また詳細なインストール方法については下記のページを参照してください。
-https://pve.proxmox.com/pve-docs/chapter-pve-installation.html
+<https://pve.proxmox.com/pve-docs/chapter-pve-installation.html>
 :::
 
 ### インストール用USBメモリを作成する
 
 Proxmox VEのISOをダウンロードし、起動可能な形式でUSBメモリに書き込みます。このUSBメモリをサーバとして利用するマシンに挿して起動することでインストールを開始できます。
 以下のページから最新のProxmox VEのISOファイルをダウンロードしてください。
-https://www.proxmox.com/en/downloads/proxmox-virtual-environment/iso
+<https://www.proxmox.com/en/downloads/proxmox-virtual-environment/iso>
 
 ダウンロードしたISOファイルを各プラットフォームごとに異なる方法を使ってUSBメモリに書き込みます。
 
@@ -118,14 +118,14 @@ ISOファイルを指定する際に下記の様な警告が表示されるか�
 :::details macOSの場合
 <!-- textlint-enable ja-technical-writing/ja-no-mixed-period -->
 以下のページを参照してください。
-https://pve.proxmox.com/pve-docs/chapter-pve-installation.html#_instructions_for_macos
+<https://pve.proxmox.com/pve-docs/chapter-pve-installation.html#_instructions_for_macos>
 <!-- textlint-disable ja-technical-writing/ja-no-mixed-period -->
 :::
 
 :::details Linuxの場合
 <!-- textlint-enable ja-technical-writing/ja-no-mixed-period -->
 以下のページを参照してください。
-https://pve.proxmox.com/pve-docs/chapter-pve-installation.html#_instructions_for_gnu_linux
+<https://pve.proxmox.com/pve-docs/chapter-pve-installation.html#_instructions_for_gnu_linux>
 :::
 
 ### サーバマシンの設定をする
@@ -151,7 +151,7 @@ https://pve.proxmox.com/pve-docs/chapter-pve-installation.html#_instructions_for
 利用しているルータの設定を確認し、DHCPで配られるIPアドレスの範囲を確認しておきます。DHCPとは、Dynamic Host Configuration Protocolの略で、「IPv4ネットワークにおいて通信用の基本的な設定を自動的に行うためのプロトコル」[^dhcp]です。これによりLANケーブルを接続するだけでIPアドレスやゲートウェイ、用いるDNSサーバなどが自動設定されてインターネットに接続出来るようになります。
 <!-- textlint-enable ja-technical-writing/no-doubled-joshi -->
 
-[^dhcp]: https://www.nic.ad.jp/ja/basics/terms/dhcp.html
+[^dhcp]: <https://www.nic.ad.jp/ja/basics/terms/dhcp.html>
 
 例えば `192.168.16.1`～`192.168.16.100` までが配られるアドレスの範囲になっているとします。これらのアドレスは永久に特定の端末にのみ与えるわけではなく、一定期間に決まっています。そのアドレスを使用していない間にこの期間を満了すると、そのアドレスは開放されます。本書での実験をする端末をシャットダウンしている間などにこの期間を迎えてしまうと、接続先のサーバのアドレスが変わってしまう可能性があります。
 
@@ -215,7 +215,7 @@ EULAの前に下記の様な画面が表示される場合、UEFI（またはBIO
 最後に確認画面が出るので問題があれば `Previous` ボタンから戻って再設定してください。`Install` を押すと開始します。  
 完了するまで待ち、rebootされたらUSBメモリは抜いて大丈夫です。もしうっかりUSBからまた起動してしまった場合は、電源を落とし、USBメモリを抜いてから起動すれば問題ありません。
 
-```
+```text
 Welcome to the Proxmox Virtual Environment. Please use your browser to
 Configure this server - connect to:
 
@@ -304,7 +304,7 @@ ssh-copy-id root@${PROXMOX_SERVER_ADDR}
 
 パスワードを入力すると公開鍵が登録されます。
 
-```
+```text
 $ ssh-copy-id root@${PROXMOX_SERVER_ADDR}
 /usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/pudding/.ssh/id_ed25519.pub"
 /usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed

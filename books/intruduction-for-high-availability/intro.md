@@ -35,7 +35,7 @@ title: "はじめに"
 
 可用性（Availability）とは、「システムが意図した機能をある時点で実行できるかどうか」[^google-cre]を指す指標です。頻繁にサーバが落ちているサービスは当然低い可用性を持ちます。
 
-[^google-cre]: https://cloud.google.com/blog/ja/products/gcp/available-or-not-that-is-the-question-cre-life-lessons
+[^google-cre]: <https://cloud.google.com/blog/ja/products/gcp/available-or-not-that-is-the-question-cre-life-lessons>
 
 令和のWebサービスには基本的に高い可用性が求められます。ユーザはGoogle、Amazon、Appleの様な24時間365日利用可能なWebサービスに慣れています。例え個人開発のサービスであったとしてもアクセスした際に利用可能でなければ失望し離れてしまいます。
 仕事でWebサービスを提供する場合、ユーザを獲得し離さないために可用性は必須のものです。基本的にはパブリッククラウドの様々なマネージドサービスを用いてサービスを構築するのが良い選択肢でしょう。

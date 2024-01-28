@@ -6,7 +6,7 @@ title: "Nginxでファイルを配信する"
 
 [Nginx](https://k6.io/)は、Webサーバーとして使われることが多いオープンソースソフトウェアです。HTTPなどのプロトコルを使ってファイルを配信したり、リバースプロキシとして動作してバックエンドのWebアプリケーションサーバーにリクエストを転送したりできます。
 
-https://nginx.org/en/
+@[card](https://nginx.org/en/)
 
 HTMLやCSS・JavaScriptのファイルを配信するために使われることが多く、それらをアプリケーションサーバから配信する場合と比べて高いパフォーマンスを発揮します。
 
@@ -53,7 +53,7 @@ sudo apt update && sudo apt install -y nginx
 nginxの設定は独自の形式で記述します。`/etc/nginx/` 以下に様々な設定ファイルが配置されています。
 ここでは、いくつかのファイルの関係性を説明します。重要な点以外は全てスキップしているので、詳細は公式ドキュメントを参照してください。
 
-http://nginx.org/en/docs/beginners_guide.html
+@[card](http://nginx.org/en/docs/beginners_guide.html)
 
 ```nginx:/etc/nginx/nginx.conf
 # nginxを実行するユーザ名
@@ -217,7 +217,7 @@ curl: (7) Failed to connect to localhost port 80 after 0 ms: Connection refused
 
 先ほどはcurlでアクセスする簡単な動作テストをやってみましたが、今後の章ではより詳細な試験をするため [k6](https://k6.io/) という負荷試験ツールを用います。Grafana Labsが開発しているオープンソースの負荷試験ツールで、Goで書かれています。試験の内容自体はJavaScriptで記述します。
 
-https://k6.io/
+@[card](https://k6.io/)
 
 ### k6のインストール
 
@@ -228,8 +228,7 @@ WindowsでWSLを使って本書を読んでいる場合は、WSLにk6をイン�
 その場合、WindowsではなくLinux（おそらくUbuntu）の手順を参照してください。WSLに異なるLinuxディストリビューションを使用している方はそのディストリビューションの手順を参照してください。
 :::
 
-https://grafana.com/docs/k6/latest/get-started/installation/#installation
-
+@[card](https://grafana.com/docs/k6/latest/get-started/installation/#installation)
 
 k6コマンドが実行できる事を確かめます。
 
@@ -333,6 +332,7 @@ k6 run --duration 30s --rps 100 firstrun.js
 running (0m30.0s), 0/1 VUs, 2997 complete and 0 interrupted iterations
 default ✓ [======================================] 1 VUs  30s
 ```
+
 `http_reqs` を見ると `2997 99.895273/s` と書かれており、合計2997リクエストを送っていることがわかります。 `http_req_failed` の項目にリクエストの失敗した割合が表示されています。ここでは `0.00%` となっており、全てのリクエストが成功していることが分かります。
 
 ### 試験中にnginxを再起動してみる

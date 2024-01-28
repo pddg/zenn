@@ -1,3 +1,3 @@
 # Contents for zenn
 
-https://zenn.dev/pddg
+<https://zenn.dev/pddg>
