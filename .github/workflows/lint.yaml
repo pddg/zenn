@@ -31,7 +31,7 @@ jobs:
       - name: Install depends
         run: |
           npm ci
-      - name: Run lint
+      - name: Run textlint
         shell: bash
         run: |
           npm run -s lint:ci | tee /tmp/lint-result.xml
@@ -41,6 +41,10 @@ jobs:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           reviewdog -f=checkstyle -name="textlint" -reporter=github-pr-check -level=error < /tmp/lint-result.xml
+      - name: Run mdlint
+        shell: bash
+        run: |
+          npm run mdlint
       - uses: actions/cache/save@v3
         if: steps.npm-cache.outputs.cache-hit != 'true' && github.ref_name == 'main'
         with:
