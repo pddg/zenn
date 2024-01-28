@@ -54,11 +54,17 @@ ProxmoxのWeb UIの `Create VM` という上部のボタンから、VMの作成�
 - ネットワーク：ブリッジネットワーク（ホストと同じネットワーク直下に紐付く）
 
 ![promox-webui-sample-vm-general.png](/images/books/introduction-for-high-availability/proxmox-webui-sample-vm-general.png)
+
 ![promox-webui-sample-vm-os.png](/images/books/introduction-for-high-availability/proxmox-webui-sample-vm-os.png)
+
 ![promox-webui-sample-vm-system.png](/images/books/introduction-for-high-availability/proxmox-webui-sample-vm-system.png)
+
 ![promox-webui-sample-vm-disks.png](/images/books/introduction-for-high-availability/proxmox-webui-sample-vm-disks.png)
+
 ![promox-webui-sample-vm-cpu.png](/images/books/introduction-for-high-availability/proxmox-webui-sample-vm-cpu.png)
+
 ![promox-webui-sample-vm-memory.png](/images/books/introduction-for-high-availability/proxmox-webui-sample-vm-memory.png)
+
 ![promox-webui-sample-vm-network.png](/images/books/introduction-for-high-availability/proxmox-webui-sample-vm-network.png)
 
 最終的にconfirmして進めると、以下の様に `node1` の直下に `100` というVM IDを持つVMが作成されます。
@@ -67,7 +73,7 @@ ProxmoxのWeb UIの `Create VM` という上部のボタンから、VMの作成�
 
 ### 実際にブートしてOSをインストールする
 
-`Datacenter` > `node1` > `100 (node1)` を選択し、右上あたりに表示される `▶ Start` を押すとブートすることができます。押した後、`Console` というメニューを選択することでブート中の画面をブラウザから開けます。
+`Datacenter` > `node1` > `100 (node1)` を選択し、右上あたりに表示される `▶ Start` を押すとブートできます。押した後、`Console` というメニューを選択することでブート中の画面をブラウザから開けます。
 まずGRUBというブートローダ[^grub]の起動画面が表示されます。
 
 [^grub]: https://wiki.archlinux.jp/index.php/GRUB
@@ -85,7 +91,7 @@ ProxmoxのWeb UIの `Create VM` という上部のボタンから、VMの作成�
 
 ![proxmox-webui-sample-vm-installer-language.png](/images/books/introduction-for-high-availability/proxmox-webui-sample-vm-installer-language.png)
 
-基本的にはTabキー、矢印キーで移動し、Enterで決定・Spaceでトグルの操作を行って進めていきます。ユーザ名やパスワードなどはキーボードで通常通り入力できます。
+基本的にはTabキー、矢印キーで移動し、Enterで決定、Spaceでチェックボックスをトグルして進めていきます。ユーザ名やパスワードなどはキーボードで通常通り入力できます。
 いくつか省略しているページがありますが、それらは基本的にデフォルトのまま進めればOKです。
 
 基本的には自動で最新のものを使うようにして進めます。
@@ -97,7 +103,7 @@ ProxmoxのWeb UIの `Create VM` という上部のボタンから、VMの作成�
 インストールの方針を決めます。minimizedにすると本当に最小限になってしまうので、デフォルトで進めます。
 ![proxmox-webui-sample-vm-installer-type.png](/images/books/introduction-for-high-availability/proxmox-webui-sample-vm-installer-type.png)
 
-ネットワークの設定をします。ここでは、基本的にはDHCPで設定されていれば良いです。また、このとき割り振られたIPアドレスのレンジがProxmoxをインストールした物理マシンのアドレスと同じレンジであることを確認してください。これはLinuxのブリッジインターフェースを使って実現されており、ホストと同じネットワークにVMが作成されることを意味します。
+ネットワークの設定をします。ここでは、基本的にはDHCPで設定されていれば良いです。また、このとき割り振られたIPアドレスのレンジがProxmoxをインストールした物理マシンのアドレスと同じレンジであることを確認してください。これはLinuxのブリッジインタフェースを使って実現されており、ホストと同じネットワークにVMが作成されることを意味します。
 ![proxmox-webui-sample-vm-installer-network.png](/images/books/introduction-for-high-availability/proxmox-webui-sample-vm-installer-network.png)
 
 ここから先しばらくはデフォルトの設定のまま進めます。proxyやmirrorの設定は全てデフォルトのままで大丈夫です。
@@ -119,7 +125,7 @@ Ubuntuを提供するCanonical社の有料サブスクリプションであるUb
 最初から `ssh-import-key` コマンドによる公開鍵のインポートが出来るようになっています。下記の画像の様にGitHubのユーザを指定して公開鍵をインポートできます。これを利用しない場合、利用できる認証方式がパスワードのみのため `Allow password authentication over SSH` を必ず有効化しましょう。
 ![proxmox-webui-sample-vm-installer-sshd.png](/images/books/introduction-for-high-availability/proxmox-webui-sample-vm-installer-sshd.png)
 
-[snap](https://snapcraft.io/docs) というCanonicalが推しているパッケージマネージャを使ってアプリケーションをインストールしますか？という確認が出ますが全て不要なのでデフォルトのまま次へ進めます。
+[snap](https://snapcraft.io/docs) というCanonicalが推しているパッケージマネージャを使ってアプリケーションをインストールしますか、という確認が出ますが全て不要なのでデフォルトのまま次へ進めます。
 ![proxmox-webui-sample-vm-installer-snap.png](/images/books/introduction-for-high-availability/proxmox-webui-sample-vm-installer-snap.png)
 
 しばらく待っていると以下の様に `Install complete!` という表示になるので `Reboot Now` します。リブート中にcdromのunmountに失敗した、みたいなエラーが出ますが気にする必要は無いです。
@@ -129,11 +135,11 @@ Ubuntuを提供するCanonical社の有料サブスクリプションであるUb
 
 ### qemu-guest-agentのインストール
 
-`Datacenter` > `node1` > `100 (sample)` を選択し、 `Summary` を開くとCPUやメモリの使用状態が見れる様になっています。一方、 `IPs` という項目は `Guest Agent not running` となっておりどのようなIPアドレスを設定されているのか見ることができません。これを見るためにQEMUのGuest Agentをインストールします。
+`Datacenter` > `node1` > `100 (sample)` を選択し、 `Summary` を開くとCPUやメモリの使用状態が見られる様になっています。一方、 `IPs` という項目は `Guest Agent not running` となっておりどのようなIPアドレスを設定されているのか見ることができません。これを見るためにQEMUのGuest Agentをインストールします。
 
 ![proxmox-webui-sample-vm-summary-without-agent.png](/images/books/introduction-for-high-availability/proxmox-webui-sample-vm-summary-without-agent.png)
 
-ProxmoxのWeb UIのコンソール経由だとおそらくコピーアンドペーストできないので、手で入力してください。
+ProxmoxのWeb UIのコンソール経由だとおそらくコピー&ペーストできないので、手で入力してください。
 
 ```sh
 # 今回はrootユーザではないので sudo を使って一時的に権限を得る
@@ -170,7 +176,7 @@ Swap:          1.9Gi          0B       1.9Gi
 pudding@sample:~$
 ```
 
-`/proc/cpuinfo` を見るとQEMUの仮想CPUが見えており、実際のハードウェアとは異なるものが見えることが分かります。
+`/proc/cpuinfo` を見るとQEMUの仮想CPUが見えており、実際のハードウェアとは異なっていることが分かります。
 
 ```
 pudding@sample:~$ cat /proc/cpuinfo
@@ -224,8 +230,7 @@ pudding@sample:~$
 ![proxmox-webui-sample-vm-summary-stopped.png](/images/books/introduction-for-high-availability/proxmox-webui-sample-vm-summary-stopped.png)
 
 :::message
-ProxmoxのUI経由での操作は基本的に非同期に実行されます。そのため、何らかの操作をしたときに即座に結果が反映されるとは限りません。
-シャットダウンにも時間がかかる場合があるので、 `Shutdown` を押しても即座には `stopped` にならない場合があります。しばらく待ってみてください。
+ProxmoxのUI経由での操作は基本的に非同期で実行されます。そのため、何らかの操作をしたとき、即座に結果が反映されるとは限りません。そのため、 `Shutdown` を押しても即座には `stopped` にならない場合があります。しばらく待ってみてください。
 :::
 
 停止が完了したら右上の `More` を選び `Remove` をクリックします。下記の様な確認画面が出るので、VM IDの入力および2つのチェックをマークします。
