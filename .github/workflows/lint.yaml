@@ -21,7 +21,7 @@ jobs:
         id: npm-cache-dir
         shell: bash
         run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
-      - uses: actions/cache/restore@v3
+      - uses: actions/cache/restore@v4
         id: npm-cache
         with:
           path: ${{ steps.npm-cache-dir.outputs.dir }}
@@ -41,7 +41,7 @@ jobs:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           reviewdog -f=checkstyle -name="textlint" -reporter=github-pr-check -level=error < /tmp/lint-result.xml
-      - uses: actions/cache/save@v3
+      - uses: actions/cache/save@v4
         if: steps.npm-cache.outputs.cache-hit != 'true' && github.ref_name == 'main'
         with:
           path: ${{ steps.npm-cache-dir.outputs.dir }}
