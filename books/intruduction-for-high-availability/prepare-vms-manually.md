@@ -21,7 +21,7 @@ title: "VMを作ってみる"
 ### ISOファイルをアップロードする
 
 今回は日本国内のミラーからISOを取得します。以下のページは理研のミラーです。
-https://ftp.riken.jp/Linux/ubuntu-releases/jammy/
+<https://ftp.riken.jp/Linux/ubuntu-releases/jammy/>
 
 Server install imageというセクションのリンクから最新のlive serverのISOファイルをダウンロードします。
 `ubuntu-22.04.3-live-server-amd64.iso` のようなISOファイルがダウンロードできるはずです（細かいバージョンの差異があるかもしれません）。
@@ -76,7 +76,7 @@ ProxmoxのWeb UIの `Create VM` という上部のボタンから、VMの作成�
 `Datacenter` > `node1` > `100 (node1)` を選択し、右上あたりに表示される `▶ Start` を押すとブートできます。押した後、`Console` というメニューを選択することでブート中の画面をブラウザから開けます。
 まずGRUBというブートローダ[^grub]の起動画面が表示されます。
 
-[^grub]: https://wiki.archlinux.jp/index.php/GRUB
+[^grub]: <https://wiki.archlinux.jp/index.php/GRUB>
 
 ![promox-webui-sample-vm-iso-grub.png](/images/books/introduction-for-high-availability/proxmox-webui-sample-vm-iso-grub.png)
 
@@ -168,7 +168,7 @@ ssh ${USER}@${ADDR}
 
 パスワード、もしくは公開鍵認証でログイン出来れば成功です。例えばfreeコマンドなどでメモリを見てみると、1GBしかメモリが割り振られていないことが分かります。
 
-```
+```text
 pudding@sample:~$ free -h
                total        used        free      shared  buff/cache   available
 Mem:           957Mi       196Mi       206Mi       1.0Mi       554Mi       620Mi
@@ -178,7 +178,7 @@ pudding@sample:~$
 
 `/proc/cpuinfo` を見るとQEMUの仮想CPUが見えており、実際のハードウェアとは異なっていることが分かります。
 
-```
+```text
 pudding@sample:~$ cat /proc/cpuinfo
 processor       : 0
 vendor_id       : GenuineIntel
@@ -212,7 +212,7 @@ pudding@sample:~$
 
 Linuxカーネルのバージョンを見ると、Proxmoxのホストとは異なるバージョンになっていることが分かるはずです。
 
-```
+```text
 pudding@sample:~$ uname -r
 5.15.0-91-generic
 pudding@sample:~$
