@@ -21,7 +21,7 @@ jobs:
         id: npm-cache-dir
         shell: bash
         run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
-      - uses: actions/cache/restore@v3
+      - uses: actions/cache/restore@v4
         id: npm-cache
         with:
           path: ${{ steps.npm-cache-dir.outputs.dir }}
@@ -45,7 +45,7 @@ jobs:
         shell: bash
         run: |
           npm run mdlint
-      - uses: actions/cache/save@v3
+      - uses: actions/cache/save@v4
         if: steps.npm-cache.outputs.cache-hit != 'true' && github.ref_name == 'main'
         with:
           path: ${{ steps.npm-cache-dir.outputs.dir }}
