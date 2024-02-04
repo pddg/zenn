@@ -68,7 +68,7 @@ HAProxyが1つであれば、HAProxyがダウンすることでサービスが�
 
 ここで最終的に構築する構成は以下の様になります。1台のHAProxyが複数のnginxにリクエストを分散し、nginxがレスポンスを返します。全てのnginxは同じコンテンツを提供し、全てのnginxがダウンしない限りはサービスが継続します。
 
-TODO: 画像を作る。
+![l4lb-single.drawio.png](/images/books/introduction-for-high-availability/l4lb-single.drawio.png)
 
 ### VMの作成
 
