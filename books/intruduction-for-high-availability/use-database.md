@@ -26,14 +26,16 @@ title: "データベースを使う"
 このアプリケーションは以下の様な機能を持っています。
 
 - `GET /todo`
-    - 登録されたTODOを全て取得する
-    - 例：`curl localhost:8080/todo`
+  - 登録されたTODOを全て取得する
+  - 例：`curl localhost:8080/todo`
 - `POST /todo`
-    - 新しいTODOを登録する
-    - 例：`curl -X POST -d '{"task":"new todo"}' localhost:8080/todo`
+  - 新しいTODOを登録する
+  - 例：`curl -X POST -d '{"task":"new todo"}' localhost:8080/todo`
 - `DELETE /todo/:id`
-    - 指定したIDのTODOを削除する
-    - 例：`curl -X DELETE localhost:8080/todo/1`
+  - 指定したIDのTODOを削除する
+  - 例：`curl -X DELETE localhost:8080/todo/1`
 - `POST /initialize`
-    - データベースを初期化する
-    - 例：`curl -X POST localhost:8080/initialize`
+  - データベースを初期化する
+  - 例：`curl -X POST localhost:8080/initialize`
+
+このアプリケーションはin memoryモードと、MySQLを使った永続化のいずれかのモードで動作します。in memoryモードではデータはメモリ内にのみ保存され、プロセスを再起動するとデータが失われます。MySQLモードではデータはMySQLデータベースに保存され、プロセスを再起動してもデータは失われません。
