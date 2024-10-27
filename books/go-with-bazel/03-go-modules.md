@@ -195,7 +195,7 @@ dot -Tpng graph.dot -o graph.png
 
 `graph.png` が生成され、依存関係のグラフが表示されます。
 
-![hello-world-deps.png](/images/books/bazel-with-go/hello-world-deps.png)
+![hello-world-deps.png](/images/books/go-with-bazel/hello-world-deps.png)
 
 ## Conclusion
 
