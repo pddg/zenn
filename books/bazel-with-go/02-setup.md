@@ -1,5 +1,5 @@
 ---
-title: "Setup Bazel and Go"
+title: "BazelとGoをセットアップする"
 ---
 
 ## Install bazel using bazelisk
