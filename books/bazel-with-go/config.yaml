@@ -17,3 +17,4 @@ published: false
 price: 0
 chapters:
   - 01-intro
+  - 02-setup

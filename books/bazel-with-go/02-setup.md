@@ -1,5 +1,5 @@
 ---
-title: "Setup"
+title: "Setup Bazel and Go"
 ---
 
 ## Install bazel using bazelisk
@@ -8,7 +8,7 @@ title: "Setup"
 Bazeliskは、bazelのバージョンを指定して実行するためのラッパースクリプトです。リポジトリのルートにある `.bazeliskrc` ファイルの設定に従って、実行されるbazelのバージョンを決め、実行時に自動でダウンロードします。
 各自の環境にはBazeliskのみを入れておき、`.bazeliskrc` を通してプロジェクト内で使うBazelのバージョンを制御することで、各自の環境のBazelのバージョンを気にかける必要がなくなります。
 
-```bash
+```sh
 # Linux
 ARTIFACT="bazelisk-linux-$(uname -m | sed 's/x86_64/amd64/')"
 wget -O bazelisk \
@@ -23,10 +23,9 @@ sudo ln -s /usr/local/bin/bazelisk /usr/local/bin/bazel
 brew install bazelisk
 ```
 
-上記の手順で `bazel` コマンドは `bazelisk` コマンドへのシンボリックリンクになっています。以下の様に `.bazelrc` に記述することで、実行されるbazelのバージョンを決められます。
-ここでは、現在の最新安定版である 7.x を指定しています。`7.4.0` のようにパッチバージョンまで決め打つこともできます（本番環境ではそうした方が良いでしょう）。
+上記の手順で `bazel` コマンドは `bazelisk` コマンドへのシンボリックリンクになっています。以下の様に `.bazelrc` に記述することで、実行されるbazelのバージョンを決められます。ここでは、現在の最新安定版である 7.x を指定しています。`7.4.0` のようにパッチバージョンまで決め打つこともできます（本番環境ではそうした方が良いでしょう）。
 
-```bash
+```sh
 cat  << EOF > .bazeliskrc
 USE_BAZEL_VERSION=7.x
 EOF
@@ -43,8 +42,8 @@ bazel 7.4.0
 
 Goプロジェクトとして初期化します。`module` の名前は各自の環境で調整して下さい。
 
-```bash
-cat <<EOF > go.mod
+```sh
+cat << EOF > go.mod
 module github.com/pddg/go-bazel-playground
 
 go 1.23.2
@@ -53,11 +52,9 @@ EOF
 
 ## Setup rules_go
 
-Bazelでは言語ごとにビルドツールの呼び出しを抽象化したルールを用意するのが慣習となっています。
-これらは `rules_` というプレフィックスがついていることが多く、Go言語には[rules_go](https://github.com/bazelbuild/rules_go)が用意されています。
+Bazelでは言語ごとにビルドツールの呼び出しを抽象化したルールを用意するのが慣習となっています。これらは `rules_` というプレフィックスがついていることが多く、Go言語には[rules_go](https://github.com/bazelbuild/rules_go)が用意されています。
 
-これらの外部ruleを使うために、Bazelではモジュールの仕組みが用意されています。これは[Bzlmod](https://bazel.build/external/module)と呼ばれる比較的新しい機能です。
-これは例えばGo言語におけるGo Modulesのようなものです。モジュールを配布するための[Registry](https://bazel.build/external/registry)からモジュールを取得でき、代表的なものは[Bazel Central Registry](https://registry.bazel.build/)で配布されています。特に指定しなければBazel Central Registryから取得されます。
+これらの外部ruleを使うために、Bazelではモジュールの仕組みが用意されています。これは[Bzlmod](https://bazel.build/external/module)と呼ばれる比較的新しい機能です。これは例えばGo言語におけるGo Modulesのようなものです。モジュールを配布するための[Registry](https://bazel.build/external/registry)からモジュールを取得でき、代表的なものは[Bazel Central Registry](https://registry.bazel.build/)で配布されています。特に指定しなければBazel Central Registryから取得されます。
 
 リポジトリのルートに `MODULE.bazel` ファイルを作成します。このファイルは[Starlark](https://github.com/bazelbuild/starlark)というPythonのサブセットのような言語で記述します。
 
@@ -80,8 +77,9 @@ rules_goを導入するため`MODULE.bazel`に追記します。最新のバー�
 bazel_dep(name = "rules_go", version = "0.50.1", repo_name = "rules_go")
 ```
 
-> [!NOTE]
-> Bzlmodは各ルールが依存する他のルールも自動的に解決します。異なるルール間で共通して依存するルールがある場合、そのバージョンはGoと同じく[Minimal Version Selection（MVS）](https://research.swtch.com/vgo-mvs)によって解決されます。
+::: message
+Bzlmodは各ルールが依存する他のルールも自動的に解決します。異なるルール間で共通して依存するルールがある場合、そのバージョンはGoと同じく[Minimal Version Selection（MVS）](https://research.swtch.com/vgo-mvs)によって解決されます。
+:::
 
 `bazel mod tidy` コマンドでいくつかの必要な記述の追記やフォーマットを行えます。
 
@@ -99,15 +97,15 @@ bazel mod tidy
 touch WORKSPACE.bazel
 ```
 
-> [!WARNING]
-> WORKSPACEの機能はBazel 8.0でデフォルト無効になり、Bazel 9.0で削除されることが予告されています。
-> <https://bazel.build/about/roadmap>
-> Bazel 7.1以降では `--noenable_workspace` オプションで先に機能が削除された状態を試し、問題が起きないか確認できます。
+::: message
+WORKSPACEの機能はBazel 8.0でデフォルト無効になり、Bazel 9.0で削除されることが予告されています。
+<https://bazel.build/about/roadmap>
+Bazel 7.1以降では `--noenable_workspace` オプションで先に機能が削除された状態を試し、問題が起きないか確認できます。
+:::
 
 ## Setup Go SDK
 
-Bazel moduleは[extension](https://bazel.build/external/extension)という機能を使って、外部の依存をBazelのエコシステムに統合します。
-rules_goのextensionを使って、このプロジェクトで利用するGo SDKをダウンロードします。
+Bazel moduleは[extension](https://bazel.build/external/extension)という機能を使って、外部の依存をBazelのエコシステムに統合します。rules_goのextensionを使って、このプロジェクトで利用するGo SDKをダウンロードします。
 
 ```python
 go_sdk = use_extension("@rules_go//go:extensions.bzl", "go_sdk")
@@ -155,8 +153,7 @@ go version go1.23.2 linux/amd64
 
 ## Build Go application
 
-`apps` ディレクトリを作成し、`hello_world` というGoアプリケーションを作成します。
-このアプリケーションは単に `Hello, World!` と出力するだけのものです。
+`apps` ディレクトリを作成し、`hello_world` というGoアプリケーションを作成します。このアプリケーションは単に `Hello, World!` と出力するだけのものです。
 
 ```bash
 mkdir -p apps/hello_world
@@ -171,8 +168,7 @@ func main() {
 EOF
 ```
 
-bazelでは、Goアプリケーションをビルドするために開発者が `go` コマンドの使い方を覚える必要はありません。
-ビルドするアプリケーションのディレクトリに `BUILD.bazel` ファイルを作成し、ビルドルールを記述します。
+bazelでは、Goアプリケーションをビルドするために開発者が `go` コマンドの使い方を覚える必要はありません。ビルドするアプリケーションのディレクトリに `BUILD.bazel` ファイルを作成し、ビルドルールを記述します。
 
 ```python:apps/hello_world/BUILD.bazel
 load("@rules_go//go:def.bzl", "go_binary")
