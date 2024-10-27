@@ -13,7 +13,7 @@ summary: |
   
   ※ 著者は特にBazelの開発者でもなく、企業でのBazelの導入経験もありません。趣味です。
 topics: ["Go","Bazel"]
-published: false
+published: true
 price: 0
 toc_depth: 3
 chapters:
