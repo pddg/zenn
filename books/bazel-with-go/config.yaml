@@ -18,3 +18,4 @@ price: 0
 chapters:
   - 01-intro
   - 02-setup
+  - 03-go-modules
