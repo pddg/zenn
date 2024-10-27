@@ -176,6 +176,27 @@ Hello, World!(42b29365-410c-4ce4-b1c2-d6973382d36f)
 
 `Hello, World!`の後にuuidが出力されていることが確認できます。
 
+## Tips: Show dependency graph
+
+`bazel query` コマンドを使うことで、ターゲットの依存関係をグラフで表示できます。
+
+:::message
+`dot` コマンドが必要です。インストールされていない場合は、 `brew install graphviz` などでインストールしてください。
+:::
+
+```bash
+bazel query \
+  --noimplicit_deps \
+  --output graph \
+  'deps(//apps/hello_world:hello_world)' \
+  > graph.dot
+dot -Tpng graph.dot -o graph.png
+```
+
+`graph.png` が生成され、依存関係のグラフが表示されます。
+
+![hello-world-deps.png](/images/books/bazel-with-go/hello-world-deps.png)
+
 ## Conclusion
 
 Gazelleを使うことで自動的にGoの依存関係を解析し、Bazelのビルドファイルを生成できます。
