@@ -17,11 +17,11 @@ package reverse
 
 // String returns the reversed string.
 func String(given string) string {
-    runes := []rune(given)
-    for i, j := 0, len(runes)-1; i < len(runes)/2; i, j = i+1, j-1 {
-        runes[i], runes[j] = runes[j], runes[i]
-    }
-    return string(runes)
+	runes := []rune(given)
+	for i, j := 0, len(runes)-1; i < len(runes)/2; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
 }
 ```
 
@@ -35,16 +35,16 @@ hello_worldアプリケーションで `reverse` パッケージを使用して�
 package main
 
 import (
-    "fmt"
+	"fmt"
 
-    "github.com/google/uuid"
-    "github.com/pddg/go-bazel-playground/internal/reverse"
+	"github.com/google/uuid"
+	"github.com/pddg/go-bazel-playground/internal/reverse"
 )
 
 func main() {
-    uuidStr := uuid.NewString()
-    fmt.Printf("Hello, World!(%s)\n", uuidStr)
-    fmt.Printf("Reversed: %s\n", reverse.String("Hello, World!"))
+	uuidStr := uuid.NewString()
+	fmt.Printf("Hello, World!(%s)\n", uuidStr)
+	fmt.Printf("Reversed: %s\n", reverse.String("Hello, World!"))
 }
 ```
 
@@ -136,13 +136,13 @@ cat <<EOF > apps/sample/main.go
 package main
 
 import (
-    "fmt"
+	"fmt"
 
-    "github.com/pddg/go-bazel-playground/internal/reverse"
+	"github.com/pddg/go-bazel-playground/internal/reverse"
 )
 
 func main() {
-    fmt.Println(reverse.String("Hello, World!"))
+	fmt.Println(reverse.String("Hello, World!"))
 }
 EOF
 bazel run //:gazelle

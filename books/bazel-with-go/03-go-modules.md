@@ -99,14 +99,14 @@ bazel run @rules_go//go -- get github.com/google/uuid
 package main
 
 import (
- "fmt"
+	"fmt"
 
- "github.com/google/uuid"
+	"github.com/google/uuid"
 )
 
 func main() {
- uuidStr := uuid.NewString()
- fmt.Printf("Hello, World!(%s)\n", uuidStr)
+	uuidStr := uuid.NewString()
+	fmt.Printf("Hello, World!(%s)\n", uuidStr)
 }
 ```
 
