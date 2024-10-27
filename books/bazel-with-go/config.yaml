@@ -20,3 +20,4 @@ chapters:
   - 02-setup
   - 03-go-modules
   - 04-internal-modules
+  - 05-unittest
