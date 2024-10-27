@@ -1,4 +1,8 @@
 {
     "default": true,
-    "MD013": false
+    "MD013": false,
+    // Ignore tabs in code blocks
+    "MD010": {
+        "code_blocks": false
+    }
 }
