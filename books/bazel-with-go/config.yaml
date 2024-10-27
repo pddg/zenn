@@ -15,6 +15,7 @@ summary: |
 topics: ["Go","Bazel"]
 published: false
 price: 0
+toc_depth: 3
 chapters:
   - 01-intro
   - 02-setup
