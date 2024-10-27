@@ -9,6 +9,9 @@ title: "コンテナイメージを作成する"
 
 bazelではコンテナイメージの作成もルールという形で抽象化されています。以前は[rules_docker](https://github.com/bazelbuild/rules_docker)が使われていましたが、これは既にアーカイブされています。現在は[rules_oci](https://github.com/bazel-contrib/rules_oci)を使うのがスタンダードになっています。
 
+rules_ociはOpen Container Initiative (OCI)が定めるOCI Imageフォーマットの仕様に準拠したコンテナイメージを生成するルールです。これはDockerイメージと互換性がありますが、Dockerイメージとは異なるフォーマットです。実際の仕様は以下にあります。
+@[card](https://github.com/opencontainers/image-spec)
+
 まず `MODULE.bazel` にrules_ociのセットアップを追記します。また、ファイルなどをtarで固めてイメージへ追加するために[rules_pkg](https://github.com/bazelbuild/rules_pkg)が必要なのでこれも追記します。
 
 ```python:MODULE.bazel
