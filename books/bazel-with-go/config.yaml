@@ -21,3 +21,4 @@ chapters:
   - 03-go-modules
   - 04-internal-modules
   - 05-unittest
+  - 06-lint
