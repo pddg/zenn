@@ -22,3 +22,4 @@ chapters:
   - 04-internal-modules
   - 05-unittest
   - 06-lint
+  - 07-cross-compile
