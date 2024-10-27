@@ -26,3 +26,4 @@ chapters:
   - 08-container-image
   - 09-grpc-protobuf
   - 10-editor-integration
+  - 11-versioning-artifacts
