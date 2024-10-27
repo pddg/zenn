@@ -24,3 +24,4 @@ chapters:
   - 06-lint
   - 07-cross-compile
   - 08-grpc-protobuf
+  - 09-editor-integration
