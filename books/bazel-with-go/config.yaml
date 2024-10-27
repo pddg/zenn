@@ -23,5 +23,5 @@ chapters:
   - 05-unittest
   - 06-lint
   - 07-cross-compile
-  - 08-grpc-protobuf
-  - 09-editor-integration
+  - 09-grpc-protobuf
+  - 10-editor-integration
