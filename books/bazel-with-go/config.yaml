@@ -28,3 +28,4 @@ chapters:
   - 10-editor-integration
   - 11-versioning-artifacts
   - 12-selective-release
+  - 13-remote-cache
