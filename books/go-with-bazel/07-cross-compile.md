@@ -35,7 +35,7 @@ INFO: Running command line: bazel-bin/apps/hello_world/hello_world_/hello_world.
 ## `go_cross_binary` rule
 
 `go_binary` ルールはplatformの指定が無ければ実行したマシンのネイティブなプラットフォームでビルドするようになっています。
-`BUILD.bazel` 上で宣言的に異なるプラットフォームへのビルドルールを指定でき、 `go_cross_binary` ルールとして実装されています。
+`BUILD.bazel` 上で宣言的に異なるプラットフォームへビルドするターゲットを生成するルールは `go_cross_binary` として実装されています。
 
 ```python:apps/hello_world/BUILD.bazel
 load("@rules_go//go:def.bzl", "go_binary", "go_library", "go_cross_binary")
