@@ -204,7 +204,7 @@ INFO: Build completed successfully, 0 total actions
 
 ```sh
 mkdir -p internal/windows
-cat << 'EOF' > internal/windows.go
+cat << 'EOF' > internal/windows/windows.go
 package windows
 
 const OsName = "defined by windows package"
