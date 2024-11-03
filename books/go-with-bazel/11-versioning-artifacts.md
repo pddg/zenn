@@ -218,10 +218,11 @@ build:release --stamp
 EOF
 ```
 
-> [!TIP]
-> `.bazelrc` において `build` と `build:release` はそれぞれ異なる設定を持てます。
-> `:release` を付けた設定を有効化するには、bazelコマンドを実行する際に `--config=release` を指定します。
-> @[card](https://bazel.build/run/bazelrc#config)
+:::message
+`.bazelrc` において `build` と `build:release` はそれぞれ異なる設定を持てます。
+`:release` を付けた設定を有効化するには、bazelコマンドを実行する際に `--config=release` を指定します。
+@[card](https://bazel.build/run/bazelrc#config)
+:::
 
 go_binaryルールを以下の様に設定します。
 
