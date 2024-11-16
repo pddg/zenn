@@ -402,7 +402,7 @@ ARCHS = [
     "arm64",
 ]
 
-def go_oci_image(name, base, entrypoint, srcs, architectures = ARCHS):
+def go_oci_image(name, base, entrypoint, srcs, repo_tags, architectures = ARCHS):
     """go_oci_image creates a multi-arch container image from Go binary.
 
     Args:
