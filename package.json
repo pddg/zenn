@@ -15,7 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "markdownlint-cli2": "0.17.1",
+    "markdownlint-cli2": "0.17.2",
     "textlint": "14.4.2",
     "textlint-filter-rule-comments": "1.2.2",
     "textlint-rule-preset-ja-technical-writing": "12.0.2",
